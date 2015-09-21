@@ -4,8 +4,8 @@ Chicken coop automation
 ## Installation
 
 ```bash
-sudo pip install virtualenv-requirements.txt
+sudo pip install -r virtualenv-requirements.txt
 virtualenv .envs/venv
-pip install requirements.txt
-``
+pip install -r requirements.txt
+```
 
