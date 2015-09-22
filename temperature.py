@@ -30,7 +30,7 @@ class Sensor:
                 if p >= 0:
                     self.last_good_temp = float(line[p+2:])/1000.0
                     return self.last_good_temp
-                return 0.0
+        return 0.0
                                                                                                                                                        
 def run():
     feed = api.feeds.get(FEED_ID)
@@ -46,8 +46,10 @@ def run():
     temp_inside.min_value = None
     
     while True:
-        temp_outside.datapoints.create(value = sensor_outside.read())
-        temp_inside.datapoints.create(value = sensor_inside.read())
+        temp_outside.current_value = sensor_outside.read()
+        temp_outside.update(fields=['current_value'])
+        temp_inside.current_value = sensor_inside.read()
+        temp_inside.update(fields=['current_value'])
         time.sleep(10)
     
 run()
