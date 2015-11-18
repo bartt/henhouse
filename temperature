@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import xively
 import subprocess
 import time
@@ -8,6 +9,7 @@ import datetime
 import requests
 import argparse
 import signal
+import requests
 
 # Define and parse command line arguments
 parser = argparse.ArgumentParser(description="Log inside and outside temperatures to Xively")
@@ -49,24 +51,50 @@ def sigterm_handler(_signo, _stack_frame):
     sys.exit(0)
                                                                                                                                                        
 def run():
-    feed = api.feeds.get(FEED_ID)
+    try:
+        feed = api.feeds.get(FEED_ID)
+    except requests.exceptions.HTTPError, err:
+        print("{} while reading the feed".format(err))
+        sys.exit(1)
 
     sensor_outside = Sensor("28-0000065baea6")
-    temp_outside = feed.datastreams.get("TempOutside")
+
+    try:
+        temp_outside = feed.datastreams.get("TempOutside")
+    except requests.exceptions.HTTPError, err:
+        print("{} while reading the outside temp".format(err))
+        sys.exit(1)
+
     temp_outside.max_value = None
     temp_outside.min_value = None
 
     sensor_inside = Sensor("28-000005fb1ddb")
-    temp_inside = feed.datastreams.get("TempInside")
+
+    try:
+        temp_inside = feed.datastreams.get("TempInside")
+    except requests.exceptions.HTTPError, err:
+        print("{} while reading the inside temp".format(err))
+        sys.exit(1)
+
     temp_inside.max_value = None
     temp_inside.min_value = None
     
     while True:
         temp_outside.current_value = sensor_outside.read()
-        temp_outside.update(fields=['current_value'])
+
+        try:
+            temp_outside.update(fields=['current_value'])
+        except requests.exceptions.HTTPError, err:
+            print("{} while updating the outside temp".format(err))
+
         temp_inside.current_value = sensor_inside.read()
-        temp_inside.update(fields=['current_value'])
-        time.sleep(10)
+
+        try:
+            temp_inside.update(fields=['current_value'])
+        except requests.exceptions.HTTPError, err:
+            print("{} while updating the inside temp".format(err))
+
+        time.sleep(60)
 
 signal.signal(signal.SIGTERM, sigterm_handler)
     
