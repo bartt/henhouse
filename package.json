@@ -1,0 +1,26 @@
+{
+  "name": "henhouse",
+  "version": "0.0.1",
+  "description": "Henhouse door automation",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^1.5.2",
+    "debug": "^2.2.0",
+    "javascript-state-machine": "^2.3.5",
+    "rpi-gpio": "^0.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bartt/henhouse.git"
+  },
+  "author": "Bart Teeuwisse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bartt/henhouse/issues"
+  },
+  "homepage": "https://github.com/bartt/henhouse#readme"
+}

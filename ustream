@@ -7,4 +7,4 @@ if [[ -z $RTMP_URL || -z $STREAM_KEY ]]; then
    exit 1
 fi 
 
-raspivid -n -vf -hf -t 0 -w 960 -h 540 -fps 25 -b 500000 -o - 2> /dev/nul | ffmpeg -i - -vcodec copy -an -metadata title="HenHouse Cam" -f flv $RTMP_URL/$STREAM_KEY 2> /dev/null
+raspivid -n -vf -hf -t 0 -w 960 -h 540 -fps 25 -b 500000 -o - 2> /dev/null | ffmpeg -i - -vcodec copy -an -metadata title="HenHouse Cam" -f flv $RTMP_URL/$STREAM_KEY 2> /dev/null

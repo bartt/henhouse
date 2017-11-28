@@ -59,3 +59,7 @@ target/
 
 # Emacs
 *~
+TAGS
+
+#npm
+node_modules
